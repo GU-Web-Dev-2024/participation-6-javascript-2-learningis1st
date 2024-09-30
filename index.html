@@ -23,50 +23,121 @@
         }
 
         .outside-border {
-            border: 10px dotted rgb(0, 72, 255);
+            border: 5px dotted rgb(0, 72, 255);
             border-radius: 15px;
             padding: 15px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 
 </head>
 
 <body>
-    <div class="outside-border">
+<div class="outside-border">
 
-        <h1>Guess the Number (1-10)</h1>
+    <h1>Guess the Number (1-10)</h1>
 
-        <hr>
+    <hr>
 
-        <div>
-            <label for="guess-input">Guess:</label>
-            <input type="number" id="guess-input" min="1" max="10" placeholder="Enter your guess">
-        </div>
-
-        <div>
-            <button id="guess-button">Submit Guess</button>
-        </div>
-
-        <div>
-            <p id="message"></p>
-        </div>
-        <hr>
+    <div>
+        <label for="guess-input">Guess:</label>
+        <input type="number" id="guess-input" min="1" max="10" placeholder="Enter your guess">
     </div>
 
-    <script>
-        // JavaScript code goes here   
+    <div>
+        <button id="guess-button">Submit Guess</button>
+    </div>
 
+    <div>
+        <p id="message"></p>
+    </div>
+    <hr>
+</div>
 
-        // Added a click listener to the button (will be covered more in zyBook 7.4), 
-        // for now just use the following which:
-        // uses the document object and selects the element with a matching Id found in the DOM.
-        // adds an event listener (for a click) of that selected element.
-        // executes the code in the body of the anonymous function
-        document.getElementById('guess-button').addEventListener('click', function () {
-            //function body -- any code here will be executed when the registered event is triggered.
-        });
+<script>
+    // Added a click listener to the button (will be covered more in zyBook 7.4),
+    // for now just use the following which:
+    // uses the document object and selects the element with a matching ID found in the DOM.
+    // adds an event listener (for a click) of that selected element.
+    // executes the code in the body of the anonymous function when the button is clicked.
 
-    </script>
+    let randomNumber = Math.floor(Math.random() * 10) + 1;
+    let guesses = 3;
+    let won = false;
+
+    const guessInput = document.getElementById('guess-input');
+    const guessButton = document.getElementById('guess-button');
+    const message = document.getElementById('message');
+
+    guessButton.addEventListener('click', checkGuess);
+
+    function checkGuess() {
+        let guess = parseInt(guessInput.value);
+
+        if (guess === randomNumber) {
+            won = true;
+            gameOver();
+        } else {
+            guesses--;
+            if (guesses === 0) {
+                gameOver();
+            } else {
+                message.innerHTML = `Too ${guess > randomNumber ? 'high' : 'low'}. You have ${guesses} guesses left.`;
+            }
+        }
+    }
+
+    function gameOver() {
+        if (won) {
+            message.innerHTML = 'Congratulations! You guessed the correct number.';
+        } else {
+            message.innerHTML = `Game Over. The correct number was ${randomNumber}.`;
+        }
+
+        guessInput.disabled = true;
+        guessButton.disabled = true;
+
+        // Add a reset button
+        const resetButton = document.createElement('button');
+        resetButton.innerHTML = 'Play Again';
+        resetButton.id = 'reset-button'; // Add an ID for easier selection
+        resetButton.addEventListener('click', resetGame);
+        document.body.appendChild(resetButton);
+    }
+
+    function resetGame() {
+        randomNumber = Math.floor(Math.random() * 10) + 1;
+        guesses = 3;
+        won = false;
+
+        guessInput.disabled = false;
+        guessButton.disabled = false;
+        message.innerHTML = '';
+
+        // Remove the reset button
+        const resetButton = document.getElementById('reset-button');
+        document.body.removeChild(resetButton);
+    }
+
+</script>
 </body>
 
 </html>
