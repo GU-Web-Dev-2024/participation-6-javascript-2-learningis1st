@@ -11,13 +11,20 @@
 <body>
 <div class="outside-border">
 
-    <h1>Guess the Number (1-10)</h1>
+    <h1>Guess the Number</h1>
 
     <hr>
 
     <div>
+        <label for="min-value">Min:</label>
+        <input type="number" id="min-value" value="1">
+        <label for="max-value">Max:</label>
+        <input type="number" id="max-value" value="10">
+    </div>
+
+    <div>
         <label for="guess-input">Guess:</label>
-        <input type="number" id="guess-input" min="1" max="10" placeholder="Enter your guess">
+        <input type="number" id="guess-input" placeholder="Enter your guess">
     </div>
 
     <div>
@@ -31,13 +38,24 @@
 </div>
 
 <script>
-    let randomNumber = Math.floor(Math.random() * 10) + 1;
+    let randomNumber;
     let guesses = 3;
     let won = false;
 
+    const minValueInput = document.getElementById('min-value');
+    const maxValueInput = document.getElementById('max-value');
     const guessInput = document.getElementById('guess-input');
     const guessButton = document.getElementById('guess-button');
     const message = document.getElementById('message');
+
+    function generateRandomNumber() {
+        const min = parseInt(minValueInput.value);
+        const max = parseInt(maxValueInput.value);
+        randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        minValueInput.disabled = true;
+        maxValueInput.disabled = true;
+    }
 
     guessInput.addEventListener('input', filterNonNumeric);
 
@@ -49,14 +67,17 @@
 
     function checkGuess() {
         let guess = parseInt(guessInput.value);
-        
+
         if (isNaN(guess)) {
             message.innerHTML = 'Please enter a valid number.';
             return;
         }
 
-        if (guess > 10) {
-            message.innerHTML = 'Please enter a number between 1 and 10.';
+        const min = parseInt(minValueInput.value);
+        const max = parseInt(maxValueInput.value);
+
+        if (guess < min || guess > max) {
+            message.innerHTML = `Please enter a number between ${min} and ${max}.`;
             return;
         }
 
@@ -91,7 +112,7 @@
     }
 
     function resetGame() {
-        randomNumber = Math.floor(Math.random() * 10) + 1;
+        generateRandomNumber();
         guesses = 3;
         won = false;
 
@@ -99,9 +120,14 @@
         guessButton.disabled = false;
         message.innerHTML = '';
 
+        minValueInput.disabled = false;
+        maxValueInput.disabled = false;
+
         const resetButton = document.getElementById('reset-button');
         document.body.removeChild(resetButton);
     }
+
+    generateRandomNumber();
 </script>
 </body>
 
