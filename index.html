@@ -49,6 +49,16 @@
 
     function checkGuess() {
         let guess = parseInt(guessInput.value);
+        
+        if (isNaN(guess)) {
+            message.innerHTML = 'Please enter a valid number.';
+            return;
+        }
+
+        if (guess > 10) {
+            message.innerHTML = 'Please enter a number between 1 and 10.';
+            return;
+        }
 
         if (guess === randomNumber) {
             won = true;
