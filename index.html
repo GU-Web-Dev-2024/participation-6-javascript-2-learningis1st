@@ -5,49 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Number Guessing Game</title>
-
-    <style>
-        body {
-            margin: auto;
-            max-width: 600px;
-            text-align: center;
-            padding: 15px;
-        }
-
-        body>div>div {
-            margin: 15px;
-        }
-
-        #guess-input {
-            width: 125px;
-        }
-
-        .outside-border {
-            border: 5px dotted rgb(0, 72, 255);
-            border-radius: 15px;
-            padding: 15px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -73,12 +31,6 @@
 </div>
 
 <script>
-    // Added a click listener to the button (will be covered more in zyBook 7.4),
-    // for now just use the following which:
-    // uses the document object and selects the element with a matching ID found in the DOM.
-    // adds an event listener (for a click) of that selected element.
-    // executes the code in the body of the anonymous function when the button is clicked.
-
     let randomNumber = Math.floor(Math.random() * 10) + 1;
     let guesses = 3;
     let won = false;
@@ -115,10 +67,9 @@
         guessInput.disabled = true;
         guessButton.disabled = true;
 
-        // Add a reset button
         const resetButton = document.createElement('button');
         resetButton.innerHTML = 'Play Again';
-        resetButton.id = 'reset-button'; // Add an ID for easier selection
+        resetButton.id = 'reset-button';
         resetButton.addEventListener('click', resetGame);
         document.body.appendChild(resetButton);
     }
@@ -132,11 +83,9 @@
         guessButton.disabled = false;
         message.innerHTML = '';
 
-        // Remove the reset button
         const resetButton = document.getElementById('reset-button');
         document.body.removeChild(resetButton);
     }
-
 </script>
 </body>
 
