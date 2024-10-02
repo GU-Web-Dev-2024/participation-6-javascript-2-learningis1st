@@ -39,6 +39,12 @@
     const guessButton = document.getElementById('guess-button');
     const message = document.getElementById('message');
 
+    guessInput.addEventListener('input', filterNonNumeric);
+
+    function filterNonNumeric(event) {
+        guessInput.value = guessInput.value.replace(/[^0-9]/g, '');
+    }
+
     guessButton.addEventListener('click', checkGuess);
 
     function checkGuess() {
